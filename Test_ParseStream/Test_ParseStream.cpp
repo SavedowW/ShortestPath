@@ -173,8 +173,8 @@ namespace TestParseStream
 
 			bool shouldThrowException = true;
 			int expectedCode = 4;
-			std::string expectedStr = "-1";
-			InfInt expectedOperand = -1;
+			std::string expectedStr = "0";
+			InfInt expectedOperand = 0;
 
 			std::vector<InfInt> resultPrices = {};
 			std::vector<std::pair<int, int>> resultRoads = {};

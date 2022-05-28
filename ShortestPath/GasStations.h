@@ -14,6 +14,8 @@ struct ErrorInfo
 	InfInt value = 0;
 };
 
+const InfInt ARGUMENT_UPPER_LIMIT("2147483647");
+
 /*!
 * \—читывет входные данные
 * \param[in] input_ - поток входных данныъ
