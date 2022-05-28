@@ -18,10 +18,10 @@ void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::vecto
 			throw ErrorInfo{ 1, line };
 
 		//Считать числа из строки
-		
+		auto numbers = ParseLineToInts(line);
 
-		//Если в строке 0 или больше 2 - х чисел
-			//Заполнить структуру ErrorInfo и выбросить исключение 2
+		if (numbers.size() > 2 || numbers.size() == 0) //Если в строке 0 или больше 2 - х чисел
+			throw ErrorInfo{ 2, line }; //Заполнить структуру ErrorInfo и выбросить исключение 2
 		//Если считываются одиночные числа
 		{
 			//Если в строке 2 числа
