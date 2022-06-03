@@ -1,4 +1,5 @@
 #include "GasStations.h"
+#include <set>
 
 void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::vector<std::pair<int, int>>& roads_)
 {
@@ -102,7 +103,66 @@ std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_,
 
 InfInt DijkstraAlgorithm(const std::vector<std::vector<InfInt>>& paths_)
 {
-	return InfInt();
+	std::set<int> visited;
+
+	//Считать, что метки всех городов равны -1, и у первого - 0
+	std::vector<InfInt> marks(paths_.size(), -1);
+	marks[0] = 0;
+
+	//Начать обход городов с 0-го
+	int toProceed = 0;
+	while (toProceed != -1) //Пока есть города, которые можно обойти
+	{
+		//Получить список городов, соседствующих с текущим
+		std::set<int> neighbours;
+		for (int i = 0; i < paths_[toProceed].size(); ++i)
+		{
+			if (paths_[toProceed][i] > 0 && !visited.contains(i))
+				neighbours.insert(i);
+		}
+
+		//Для всех соседних городов
+		for (auto& i : neighbours)
+		{
+			//Рассчитать новую метку
+			InfInt newMark = marks[toProceed] + paths_[toProceed][i];
+
+			//Обновить метку, если она не была до этого установлена или если новая меньше старой
+			if (marks[i] == -1 || marks[i] > newMark)
+				marks[i] = newMark;
+		}
+		//Считать текущий город посещенным
+		visited.insert(toProceed);
+
+		toProceed = -1;
+		InfInt minPathLen = -1;
+		int townWithMinLen = -1;
+		for (auto& i : visited) //Для всех посещенных городов
+		{
+			for (int k = 0; k < paths_[i].size(); ++k)
+			{
+				if (paths_[i][k] != 0 && !visited.contains(k))  //Для всех городов, связанных с посещенным 
+				{
+					if (minPathLen == -1 || paths_[i][k] < minPathLen) //Если дорога до города меньше сохраненной
+					{
+						//Сохранить его
+						minPathLen = paths_[i][k];
+						townWithMinLen = k;
+					}
+				}
+			}
+		}
+
+		//Обновить текущий город
+		toProceed = townWithMinLen;
+	}
+	
+	if (marks[paths_.size() - 1] == -1) //Если конечный город не был обойден
+		//Выбросить исключение
+		throw ErrorInfo{ 0 };
+	else //Иначе
+		//Вернуть цену пути до него
+		return marks[paths_.size() - 1];
 }
 
 std::vector<InfInt> ParseLineToInts(const std::string& line_)
