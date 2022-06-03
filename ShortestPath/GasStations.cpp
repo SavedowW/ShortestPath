@@ -71,7 +71,33 @@ void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::vecto
 
 std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_, const std::vector<std::pair<int, int>>& roads_)
 {
-	return std::vector<std::vector<InfInt>>();
+	//Создать квадратную матрицу с размером, равным количеству городов
+	int target = prices_.size();
+	int size = target + 1;
+	if (target == 0)
+		size = 0;
+	std::vector<std::vector<InfInt>> a(size);
+
+	for (int i = 0; i < a.size(); ++i)
+	{
+		a[i].resize(size);
+		for (int k = 0; k < a[i].size(); ++k) //Для каждого элемента матрицы
+		{
+			//Считать элемент матрицы равным 0
+			a[i][k] = 0;
+
+			if (i != target && //Если пара номера строки и столбца присутствует в списке дорог и исходный город не конечныйц
+				(std::find(roads_.begin(), roads_.end(), std::pair<int, int>{i + 1, k + 1}) != roads_.end() ||
+				 std::find(roads_.begin(), roads_.end(), std::pair<int, int>{k + 1, i + 1}) != roads_.end())) 
+			{
+				//Считать элемент равным цене в городе, из которого идет дорога
+				a[i][k] = prices_[i];
+			}
+		}
+	}
+
+	//Вернуть полученную матрицу
+	return a;
 }
 
 InfInt DijkstraAlgorithm(const std::vector<std::vector<InfInt>>& paths_)
