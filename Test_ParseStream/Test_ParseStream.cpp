@@ -234,8 +234,8 @@ namespace TestParseStream
 			bool gotException = false;
 
 			bool shouldThrowException = true;
-			int expectedCode = 2;
-			std::string expectedStr = "2 9";
+			int expectedCode = 6;
+			std::string expectedStr = "";
 			InfInt expectedOperand = 9;
 
 			std::vector<InfInt> resultPrices = {};
