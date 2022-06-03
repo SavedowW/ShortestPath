@@ -52,8 +52,8 @@ void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::vecto
 				throw ErrorInfo{5, line};
 
 			//Если такая же пара еще не сохранена
-			if (std::find(roads_.begin(), roads_.end(), std::pair<int, int>(numbers[0].toInt(), numbers[1].toInt())) != roads_.end() ||
-				std::find(roads_.begin(), roads_.end(), std::pair<int, int>(numbers[1].toInt(), numbers[0].toInt())) != roads_.end())
+			if (!(std::find(roads_.begin(), roads_.end(), std::pair<int, int>(numbers[0].toInt(), numbers[1].toInt())) != roads_.end()) &&
+				!(std::find(roads_.begin(), roads_.end(), std::pair<int, int>(numbers[1].toInt(), numbers[0].toInt())) != roads_.end()))
 				//Сохранить их как пару городов
 				roads_.push_back({numbers[0].toInt(), numbers[1].toInt()});
 		}

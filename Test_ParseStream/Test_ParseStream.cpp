@@ -2,7 +2,7 @@
 #include "CppUnitTest.h"
 #include "GasStations.h"
 
-const std::string TESTS_PATH = "D:\\stuff\\VSTUstuff\\KNPO\\ShortestPath\\ParseStreamTestFiles";
+const std::string TESTS_PATH = "T:\\cppStuff\\ShortestPath\\ParseStreamTestFiles";
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
