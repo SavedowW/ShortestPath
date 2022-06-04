@@ -103,6 +103,9 @@ std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_,
 
 InfInt DijkstraAlgorithm(const std::vector<std::vector<InfInt>>& paths_)
 {
+	if (paths_.size() == 0)
+		return 0;
+
 	std::set<int> visited;
 
 	//—читать, что метки всех городов равны -1, и у первого - 0

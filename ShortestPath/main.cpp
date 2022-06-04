@@ -4,28 +4,29 @@
 int main(const int argc, char** argv)
 {
 	//Выдать ошибку, если входной файл не указан в аргументах командной строки
-	if (argc == 0)
+	if (argc == 1)
 	{
 		std::cout << "Input file is not defined in arguments.\n";
 		return 1;
 	}
 	//Выдать ошибку, если выходной файл не указан в аргументах командной строки
-	if (argc == 1)
+	if (argc == 2)
 	{
 		std::cout << "Output file is not defined in arguments.\n";
 		return 2;
 	}
 	//Выдать ошибку, если входной файл невозможно открыть
-	std::ifstream input(argv[0]);
+	std::ifstream input(argv[1]);
 	if (!input.is_open())
 	{
 		std::cout << "Cannot open input file. Make sure the path is correct.\n";
 		return 3;
 	}
-	std::ofstream output(argv[0]);
+	std::ofstream output(argv[2]);
 	if (!output.is_open())
 	{
 		std::cout << "Cannot open output file. Make sure the path is correct and you have write rights.\n";
+		input.close();
 		return 3;
 	}
 
@@ -34,7 +35,6 @@ int main(const int argc, char** argv)
 
 	try
 	{
-
 		//Считать содержимое файла
 		ParseStream(input, prices, roads);
 		input.close();
