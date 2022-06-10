@@ -70,35 +70,32 @@ void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::set<s
 			throw ErrorInfo{6, "", elem.second};
 }
 
-std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_, const std::set<std::pair<int, int>>& roads_)
+void BuildMatrix(const std::vector<InfInt>& prices_, const std::set<std::pair<int, int>>& roads_, std::vector<std::vector<InfInt>>& paths_)
 {
 	//Создать квадратную матрицу с размером, равным количеству городов
 	int target = prices_.size();
 	int size = target + 1;
 	if (target == 0)
 		size = 0;
-	std::vector<std::vector<InfInt>> a(size);
+	paths_.resize(size);
 
-	for (int i = 0; i < a.size(); ++i)
+	for (int i = 0; i < paths_.size(); ++i)
 	{
-		a[i].resize(size);
-		for (int k = 0; k < a[i].size(); ++k) //Для каждого элемента матрицы
+		paths_[i].resize(size);
+		for (int k = 0; k < paths_[i].size(); ++k) //Для каждого элемента матрицы
 		{
 			//Считать элемент матрицы равным 0
-			a[i][k] = 0;
+			paths_[i][k] = 0;
 
 			if (i != target && //Если пара номера строки и столбца присутствует в списке дорог и исходный город не конечныйц
 				(roads_.contains(std::pair<int, int>{i + 1, k + 1}) ||
 				roads_.contains(std::pair<int, int>{k + 1, i + 1})))
 			{
 				//Считать элемент равным цене в городе, из которого идет дорога
-				a[i][k] = prices_[i];
+				paths_[i][k] = prices_[i];
 			}
 		}
 	}
-
-	//Вернуть полученную матрицу
-	return a;
 }
 
 InfInt DijkstraAlgorithm(const std::vector<std::vector<InfInt>>& paths_)
@@ -117,11 +114,11 @@ InfInt DijkstraAlgorithm(const std::vector<std::vector<InfInt>>& paths_)
 	while (toProceed != -1) //Пока есть города, которые можно обойти
 	{
 		//Получить список городов, соседствующих с текущим
-		std::set<int> neighbours;
+		std::list<int> neighbours;
 		for (int i = 0; i < paths_[toProceed].size(); ++i)
 		{
 			if (paths_[toProceed][i] > 0 && !visited.contains(i))
-				neighbours.insert(i);
+				neighbours.push_front(i);
 		}
 
 		//Для всех соседних городов

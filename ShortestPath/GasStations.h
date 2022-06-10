@@ -32,7 +32,7 @@ void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::set<s
 * \param[in] roads_ - пары городов, между которыми есть дороги
 * \return – матрица графа
 */
-std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_, const std::set<std::pair<int, int>>& roads_);
+void BuildMatrix(const std::vector<InfInt>& prices_, const std::set<std::pair<int, int>>& roads_, std::vector<std::vector<InfInt>> &paths_);
 
 /*!
 * \Находит цену кратчайшего пути с помощью алгоритма Дейкстры

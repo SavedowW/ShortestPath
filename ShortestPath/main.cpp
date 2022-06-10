@@ -40,7 +40,8 @@ int main(const int argc, char** argv)
 		input.close();
 
 		//Построить матрицу весов графа
-		auto mat = BuildMatrix(prices, roads);
+		std::vector<std::vector<InfInt>> mat;
+		BuildMatrix(prices, roads, mat);
 		
 		//Решить алгоритм Дейкстры
 		auto result = DijkstraAlgorithm(mat);
