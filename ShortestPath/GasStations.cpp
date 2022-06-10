@@ -56,7 +56,7 @@ void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::vecto
 			if (!(std::find(roads_.begin(), roads_.end(), std::pair<int, int>(numbers[0].toInt(), numbers[1].toInt())) != roads_.end()) &&
 				!(std::find(roads_.begin(), roads_.end(), std::pair<int, int>(numbers[1].toInt(), numbers[0].toInt())) != roads_.end()))
 				//Сохранить их как пару городов
-				roads_.push_back({numbers[0].toInt(), numbers[1].toInt()});
+				roads_.push_back({ numbers[0].toInt(), numbers[1].toInt() });
 		}
 	}
 
@@ -89,7 +89,7 @@ std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_,
 
 			if (i != target && //Если пара номера строки и столбца присутствует в списке дорог и исходный город не конечныйц
 				(std::find(roads_.begin(), roads_.end(), std::pair<int, int>{i + 1, k + 1}) != roads_.end() ||
-				 std::find(roads_.begin(), roads_.end(), std::pair<int, int>{k + 1, i + 1}) != roads_.end())) 
+					std::find(roads_.begin(), roads_.end(), std::pair<int, int>{k + 1, i + 1}) != roads_.end()))
 			{
 				//Считать элемент равным цене в городе, из которого идет дорога
 				a[i][k] = prices_[i];
@@ -97,7 +97,6 @@ std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_,
 		}
 	}
 
-	//Вернуть полученную матрицу
 	return a;
 }
 
