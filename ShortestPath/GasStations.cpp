@@ -114,11 +114,11 @@ InfInt DijkstraAlgorithm(const std::vector<std::vector<InfInt>>& paths_)
 	while (toProceed != -1) //ѕока есть города, которые можно обойти
 	{
 		//ѕолучить список городов, соседствующих с текущим
-		std::set<int> neighbours;
+		std::list<int> neighbours;
 		for (int i = 0; i < paths_[toProceed].size(); ++i)
 		{
 			if (paths_[toProceed][i] > 0 && !visited.contains(i))
-				neighbours.insert(i);
+				neighbours.push_front(i);
 		}
 
 		//ƒл€ всех соседних городов
