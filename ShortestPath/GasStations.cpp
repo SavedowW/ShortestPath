@@ -53,8 +53,8 @@ void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::set<s
 				throw ErrorInfo{5, line};
 
 			//Если такая же пара еще не сохранена
-			if (!(std::find(roads_.begin(), roads_.end(), std::pair<int, int>(numbers[0].toInt(), numbers[1].toInt())) != roads_.end()) &&
-				!(std::find(roads_.begin(), roads_.end(), std::pair<int, int>(numbers[1].toInt(), numbers[0].toInt())) != roads_.end()))
+			if (!roads_.contains(std::pair<int, int>(numbers[0].toInt(), numbers[1].toInt())) &&
+				!roads_.contains(std::pair<int, int>(numbers[0].toInt(), numbers[1].toInt())))
 				//Сохранить их как пару городов
 				roads_.insert({numbers[0].toInt(), numbers[1].toInt()});
 		}
@@ -114,11 +114,11 @@ InfInt DijkstraAlgorithm(const std::vector<std::vector<InfInt>>& paths_)
 	while (toProceed != -1) //Пока есть города, которые можно обойти
 	{
 		//Получить список городов, соседствующих с текущим
-		std::list<int> neighbours;
+		std::set<int> neighbours;
 		for (int i = 0; i < paths_[toProceed].size(); ++i)
 		{
 			if (paths_[toProceed][i] > 0 && !visited.contains(i))
-				neighbours.push_front(i);
+				neighbours.insert(i);
 		}
 
 		//Для всех соседних городов
