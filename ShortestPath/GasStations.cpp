@@ -1,7 +1,7 @@
 #include "GasStations.h"
 #include <set>
 
-void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::vector<std::pair<int, int>>& roads_)
+void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::set<std::pair<int, int>>& roads_)
 {
 	std::string line;
 
@@ -56,7 +56,7 @@ void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::vecto
 			if (!(std::find(roads_.begin(), roads_.end(), std::pair<int, int>(numbers[0].toInt(), numbers[1].toInt())) != roads_.end()) &&
 				!(std::find(roads_.begin(), roads_.end(), std::pair<int, int>(numbers[1].toInt(), numbers[0].toInt())) != roads_.end()))
 				//Сохранить их как пару городов
-				roads_.push_back({numbers[0].toInt(), numbers[1].toInt()});
+				roads_.insert({numbers[0].toInt(), numbers[1].toInt()});
 		}
 	}
 
@@ -70,7 +70,7 @@ void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::vecto
 			throw ErrorInfo{6, "", elem.second};
 }
 
-std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_, const std::vector<std::pair<int, int>>& roads_)
+std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_, const std::set<std::pair<int, int>>& roads_)
 {
 	//Создать квадратную матрицу с размером, равным количеству городов
 	int target = prices_.size();
@@ -88,8 +88,8 @@ std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_,
 			a[i][k] = 0;
 
 			if (i != target && //Если пара номера строки и столбца присутствует в списке дорог и исходный город не конечныйц
-				(std::find(roads_.begin(), roads_.end(), std::pair<int, int>{i + 1, k + 1}) != roads_.end() ||
-				 std::find(roads_.begin(), roads_.end(), std::pair<int, int>{k + 1, i + 1}) != roads_.end())) 
+				(roads_.contains(std::pair<int, int>{i + 1, k + 1}) ||
+				roads_.contains(std::pair<int, int>{k + 1, i + 1})))
 			{
 				//Считать элемент равным цене в городе, из которого идет дорога
 				a[i][k] = prices_[i];

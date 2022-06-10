@@ -31,7 +31,7 @@ int main(const int argc, char** argv)
 	}
 
 	std::vector<InfInt> prices;
-	std::vector<std::pair<int, int>> roads;
+	std::set<std::pair<int, int>> roads;
 
 	try
 	{

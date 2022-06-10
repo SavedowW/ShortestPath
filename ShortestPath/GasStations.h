@@ -6,6 +6,8 @@
 #include <sstream>
 #include <algorithm>
 #include "InfInt.h"
+#include <set>
+#include <list>
 
 struct ErrorInfo
 {
@@ -22,7 +24,7 @@ const InfInt ARGUMENT_UPPER_LIMIT("2147483647");
 * \param[out] prices_ - цены в городах
 * \param[out] roads_ - пары городов, между которыми есть дороги
 */
-void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::vector<std::pair<int, int>>& roads_);
+void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::set<std::pair<int, int>>& roads_);
 
 /*!
 * \Строит матрицу графа
@@ -30,7 +32,7 @@ void ParseStream(std::ifstream& input_, std::vector<InfInt>& prices_, std::vecto
 * \param[in] roads_ - пары городов, между которыми есть дороги
 * \return – матрица графа
 */
-std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_, const std::vector<std::pair<int, int>>& roads_);
+std::vector<std::vector<InfInt>> BuildMatrix(const std::vector<InfInt>& prices_, const std::set<std::pair<int, int>>& roads_);
 
 /*!
 * \Находит цену кратчайшего пути с помощью алгоритма Дейкстры
